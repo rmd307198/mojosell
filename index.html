@@ -1,479 +1,369 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Micron – চিপ অ্যাক্টিভেট করুন, আয় করুন</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Micron – Digital Chip Platform</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent;}
+  body{background:#0b0e14;color:#eef2f7;min-height:100vh;}
 
-    body {
-      background: #0b0e14;
-      color: #eef2f7;
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-    }
+  /* ========== AUTH SCREEN ========== */
+  #authScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+  .auth-box{width:100%;max-width:380px;background:#111827;border:1px solid #1f2937;border-radius:24px;padding:28px 22px;box-shadow:0 20px 50px -20px rgba(0,0,0,.8);}
+  .logo-big{font-size:32px;font-weight:900;text-align:center;background:linear-gradient(135deg,#6ee7b7,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px;}
+  .tagline{text-align:center;color:#6b7280;font-size:12px;margin-bottom:24px;}
+  .auth-tabs{display:flex;gap:6px;background:#0b0e14;padding:5px;border-radius:14px;margin-bottom:20px;}
+  .auth-tab{flex:1;padding:10px;background:none;border:none;color:#9ca3af;font-weight:700;font-size:13px;border-radius:10px;cursor:pointer;transition:.2s;}
+  .auth-tab.active{background:#1f2937;color:#6ee7b7;}
+  .auth-form{display:none;}
+  .auth-form.active{display:block;}
+  .auth-form input{width:100%;background:#0b0e14;border:1px solid #374151;border-radius:12px;padding:13px 14px;color:#f9fafb;font-size:14px;margin-bottom:12px;outline:none;}
+  .auth-form input:focus{border-color:#3b82f6;}
+  .btn-primary{width:100%;background:linear-gradient(135deg,#6ee7b7,#3b82f6);color:#0b0e14;border:none;font-weight:800;padding:14px;border-radius:12px;font-size:14px;cursor:pointer;transition:.2s;}
+  .btn-primary:active{transform:scale(.97);}
+  .hint{text-align:center;font-size:11px;color:#6b7280;margin-top:14px;}
 
-    .app {
-      width: 100%;
-      max-width: 420px;
-      padding: 16px 14px 90px;
-      background: #0b0e14;
-      position: relative;
-    }
+  /* ========== MAIN APP ========== */
+  #mainApp{display:none;max-width:420px;margin:0 auto;padding:16px 14px 100px;min-height:100vh;}
+  #mainApp.active{display:block;}
 
-    /* হেডার */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-    .logo {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      background: linear-gradient(135deg, #6ee7b7, #3b82f6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .badge {
-      background: #1f2937;
-      padding: 6px 12px;
-      border-radius: 99px;
-      font-size: 12px;
-      color: #9ca3af;
-      border: 1px solid #374151;
-    }
+  .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+  .logo{font-size:20px;font-weight:900;background:linear-gradient(135deg,#6ee7b7,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1px;}
+  .user-chip{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#6ee7b7,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:900;color:#0b0e14;cursor:pointer;font-size:15px;}
 
-    /* ব্যালেন্স কার্ড */
-    .balance-card {
-      background: linear-gradient(145deg, #111827, #1f2937);
-      border-radius: 24px;
-      padding: 22px 20px;
-      border: 1px solid #2d3748;
-      margin-bottom: 18px;
-      box-shadow: 0 10px 25px -10px rgba(0,0,0,0.6);
-    }
-    .balance-label {
-      font-size: 13px;
-      color: #9ca3af;
-      margin-bottom: 6px;
-      letter-spacing: 0.5px;
-    }
-    .balance-amount {
-      font-size: 38px;
-      font-weight: 800;
-      color: #f9fafb;
-      margin-bottom: 4px;
-    }
-    .balance-amount span {
-      font-size: 20px;
-      color: #6ee7b7;
-    }
-    .welcome-bonus {
-      display: inline-block;
-      background: #064e3b;
-      color: #6ee7b7;
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 99px;
-      margin-top: 8px;
-      font-weight: 600;
-    }
+  .page{display:none;}
+  .page.active{display:block;}
 
-    /* টপ-আপ বাটন */
-    .topup-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 22px;
-    }
-    .topup-btn {
-      flex: 1;
-      background: #1f2937;
-      border: 1px solid #374151;
-      border-radius: 14px;
-      padding: 12px 0;
-      color: #e5e7eb;
-      font-size: 14px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .topup-btn:active {
-      transform: scale(0.97);
-      background: #374151;
-    }
-    .topup-btn span {
-      font-size: 18px;
-    }
+  /* ========== BALANCE CARD ========== */
+  .balance-card{background:linear-gradient(145deg,#111827,#1f2937);border-radius:22px;padding:22px 20px;border:1px solid #2d3748;margin-bottom:16px;}
+  .balance-card.small{padding:18px;}
+  .balance-label{font-size:12px;color:#9ca3af;margin-bottom:6px;letter-spacing:.5px;}
+  .balance-amount{font-size:34px;font-weight:900;color:#f9fafb;}
+  .balance-card.small .balance-amount{font-size:28px;}
+  .welcome-bonus{display:inline-block;background:#064e3b;color:#6ee7b7;font-size:11px;padding:4px 12px;border-radius:99px;margin-top:10px;font-weight:700;}
+  .sub-info{font-size:12px;color:#9ca3af;margin-top:8px;}
+  .sub-info b{color:#6ee7b7;}
 
-    /* সেকশন টাইটেল */
-    .section-title {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .section-title small {
-      font-size: 11px;
-      color: #6b7280;
-      font-weight: 400;
-    }
+  /* ========== TOP UP ========== */
+  .topup-row{display:flex;gap:10px;margin-bottom:22px;}
+  .topup-btn{flex:1;border:none;border-radius:14px;padding:14px 0;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:.2s;}
+  .topup-btn.bkash{background:linear-gradient(135deg,#e2136e,#b00d55);color:#fff;}
+  .topup-btn.nagad{background:linear-gradient(135deg,#f6921e,#d97400);color:#fff;}
+  .topup-btn:active{transform:scale(.97);}
 
-    /* চিপ লিস্ট */
-    .chip-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 22px;
-    }
-    .chip-item {
-      background: #111827;
-      border: 1px solid #1f2937;
-      border-radius: 18px;
-      padding: 14px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: 0.2s;
-    }
-    .chip-item.active {
-      border-color: #3b82f6;
-      background: #0f172a;
-    }
-    .chip-info {
-      display: flex;
-      flex-direction: column;
-    }
-    .chip-name {
-      font-weight: 700;
-      font-size: 15px;
-      margin-bottom: 2px;
-    }
-    .chip-detail {
-      font-size: 11px;
-      color: #9ca3af;
-    }
-    .chip-detail b {
-      color: #6ee7b7;
-    }
-    .chip-action {
-      background: #1e3a8a;
-      border: none;
-      color: #bfdbfe;
-      padding: 8px 16px;
-      border-radius: 99px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .chip-action:active {
-      transform: scale(0.95);
-    }
-    .chip-action:disabled {
-      background: #1f2937;
-      color: #4b5563;
-      cursor: allowed;
-    }
+  /* ========== SECTION ========== */
+  .section-title{font-size:15px;font-weight:800;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
+  .section-title small{font-size:11px;color:#6b7280;font-weight:400;}
 
-    /* আর্নিংস ওভারভিউ */
-    .earnings-box {
-      background: #111827;
-      border-radius: 18px;
-      padding: 16px;
-      border: 1px solid #1f2937;
-      margin-bottom: 22px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .earnings-left .label {
-      font-size: 12px;
-      color: #9ca3af;
-      margin-bottom: 4px;
-    }
-    .earnings-left .value {
-      font-size: 24px;
-      font-weight: 800;
-      color: #6ee7b7;
-    }
-    .cashout-btn {
-      background: #6ee7b7;
-      border: none;
-      color: #0b0e14;
-      font-weight: 800;
-      padding: 12px 22px;
-      border-radius: 99px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .cashout-btn:active {
-      transform: scale(0.96);
-      opacity: 0.9;
-    }
+  /* ========== CHIP LIST ========== */
+  .chip-list{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}
+  .chip-item{background:#111827;border:1px solid #1f2937;border-radius:16px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .chip-item.active{border-color:#3b82f6;background:#0f172a;}
+  .chip-info{flex:1;min-width:0;}
+  .chip-name{font-weight:800;font-size:14px;margin-bottom:3px;}
+  .chip-detail{font-size:11px;color:#9ca3af;}
+  .chip-detail b{color:#6ee7b7;}
+  .chip-action{background:#1e3a8a;border:none;color:#bfdbfe;padding:8px 14px;border-radius:99px;font-size:12px;font-weight:800;cursor:pointer;transition:.2s;white-space:nowrap;}
+  .chip-action:active{transform:scale(.95);}
+  .chip-action:disabled{background:#1f2937;color:#4b5563;cursor:not-allowed;}
 
-    /* বটম নেভিগেশন (ঐচ্ছিক) */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 420px;
-      background: #111827ee;
-      backdrop-filter: blur(8px);
-      border-top: 1px solid #1f2937;
-      display: flex;
-      justify-content: space-around;
-      padding: 12px 0 18px;
-      font-size: 11px;
-      color: #6b7280;
-    }
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      cursor: pointer;
-    }
-    .nav-item.active {
-      color: #6ee7b7;
-    }
-    .nav-item span {
-      font-size: 18px;
-    }
+  /* ========== HISTORY ========== */
+  .history-tabs{display:flex;gap:8px;margin-bottom:14px;}
+  .htab{flex:1;background:#111827;border:1px solid #1f2937;border-radius:12px;padding:10px 6px;text-align:center;font-size:12px;font-weight:800;color:#9ca3af;cursor:pointer;transition:.2s;}
+  .htab.active{background:#1e3a8a;color:#bfdbfe;border-color:#3b82f6;}
+  .history-list{display:flex;flex-direction:column;gap:8px;}
+  .history-item{background:#111827;border:1px solid #1f2937;border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .history-item .type{font-size:13px;font-weight:700;margin-bottom:3px;}
+  .history-item .date{font-size:11px;color:#6b7280;}
+  .history-item .amount{font-weight:800;font-size:15px;white-space:nowrap;}
+  .history-item .amount.plus{color:#6ee7b7;}
+  .history-item .amount.minus{color:#f87171;}
+  .badge-pending{background:#78350f;color:#fbbf24;font-size:9px;padding:2px 7px;border-radius:99px;margin-left:6px;font-weight:700;}
+  .badge-failed{background:#7f1d1d;color:#fca5a5;font-size:9px;padding:2px 7px;border-radius:99px;margin-left:6px;font-weight:700;}
+  .empty-msg{text-align:center;color:#6b7280;font-size:13px;padding:40px 0;}
 
-    /* টোস্ট নোটিফিকেশন */
-    .toast {
-      position: fixed;
-      bottom: 90px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: #1f2937;
-      color: #f9fafb;
-      padding: 12px 24px;
-      border-radius: 99px;
-      font-size: 13px;
-      font-weight: 600;
-      opacity: 0;
-      pointer-events: none;
-      transition: 0.3s;
-      border: 1px solid #374151;
-      white-space: nowrap;
-      z-index: 99;
-    }
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-  </style>
+  /* ========== CARDS ========== */
+  .card{background:#111827;border:1px solid #1f2937;border-radius:18px;padding:16px;margin-bottom:14px;}
+  .card h3{font-size:13px;color:#9ca3af;margin-bottom:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;}
+  .avatar-row{display:flex;align-items:center;gap:14px;}
+  .avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#6ee7b7);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#0b0e14;}
+  .profile-info .name{font-size:18px;font-weight:800;}
+  .profile-info .uid{font-size:11px;color:#6b7280;margin-top:3px;}
+  .about-text{font-size:13px;color:#9ca3af;line-height:1.6;}
+
+  /* ========== REFERRAL ========== */
+  .ref-box{background:linear-gradient(135deg,#1e3a8a,#064e3b);border-radius:14px;padding:18px;text-align:center;}
+  .ref-box .lbl{font-size:11px;color:#bfdbfe;margin-bottom:8px;}
+  .ref-code{font-size:24px;font-weight:900;letter-spacing:3px;color:#fff;margin-bottom:12px;font-family:monospace;}
+  .copy-btn{background:#6ee7b7;color:#0b0e14;border:none;font-weight:800;padding:10px 24px;border-radius:99px;font-size:12px;cursor:pointer;}
+
+  /* ========== LINK ITEM ========== */
+  .link-item{display:flex;align-items:center;gap:12px;padding:12px;background:#0b0e14;border:1px solid #1f2937;border-radius:12px;text-decoration:none;color:inherit;}
+  .link-item .icon{width:36px;height:36px;border-radius:10px;background:#1e3a8a;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .link-item .text{flex:1;}
+  .link-item .text .title{font-size:13px;font-weight:700;}
+  .link-item .text .desc{font-size:11px;color:#6b7280;margin-top:2px;}
+  .link-item .arrow{color:#6b7280;font-size:18px;}
+
+  /* ========== FORM ========== */
+  .form-group{margin-bottom:12px;}
+  .form-group label{display:block;font-size:11px;color:#9ca3af;margin-bottom:6px;font-weight:700;}
+  .input-field{width:100%;background:#0b0e14;border:1px solid #374151;border-radius:12px;padding:12px 14px;color:#f9fafb;font-size:14px;outline:none;margin-bottom:12px;}
+  .input-field:focus{border-color:#3b82f6;}
+
+  /* ========== PAY GRID ========== */
+  .pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .pay-option{background:#0b0e14;border:2px solid #374151;border-radius:14px;padding:14px 10px;text-align:center;cursor:pointer;transition:.2s;font-weight:800;font-size:13px;}
+  .pay-option .icon{font-size:20px;display:block;margin-bottom:6px;}
+  .pay-option.selected{border-color:#6ee7b7;background:#064e3b;color:#6ee7b7;}
+
+  /* ========== BUTTONS ========== */
+  .btn-danger{width:100%;background:#1f2937;color:#f87171;border:1px solid #7f1d1d;font-weight:700;padding:13px;border-radius:12px;font-size:14px;cursor:pointer;}
+
+  /* ========== BOTTOM NAV ========== */
+  .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:#111827ee;backdrop-filter:blur(10px);border-top:1px solid #1f2937;display:flex;justify-content:space-around;padding:10px 0 14px;font-size:10px;color:#6b7280;z-index:10;}
+  .nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;flex:1;transition:.2s;font-weight:700;}
+  .nav-item span{font-size:18px;}
+  .nav-item.active{color:#6ee7b7;}
+  .nav-item:active{transform:scale(.92);}
+
+  /* ========== MODAL ========== */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .modal.hidden{display:none;}
+  .modal-content{background:#111827;border:1px solid #1f2937;border-radius:22px;padding:24px 20px;width:100%;max-width:400px;}
+  .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+  .modal-header h3{font-size:17px;font-weight:800;}
+  .modal-close{background:#1f2937;border:none;color:#e5e7eb;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;font-weight:700;}
+  .modal-desc{font-size:13px;color:#9ca3af;margin-bottom:14px;}
+  .modal-note{font-size:11px;color:#6b7280;margin-top:14px;line-height:1.5;text-align:center;}
+  .quick-amounts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px;}
+  .quick-amounts button{background:#1f2937;border:1px solid #374151;color:#e5e7eb;padding:8px 0;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;}
+
+  /* ========== PAYMENT STATES ========== */
+  .hidden{display:none!important;}
+  .spinner{width:50px;height:50px;border:4px solid #1f2937;border-top-color:#6ee7b7;border-radius:50%;margin:0 auto 16px;animation:spin 1s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .processing-text{font-weight:800;font-size:15px;margin-bottom:4px;text-align:center;}
+  .processing-sub{font-size:12px;color:#6b7280;text-align:center;}
+  #paymentProcessing,#paymentSuccess{text-align:center;padding:20px 0;}
+  .success-icon{font-size:56px;margin-bottom:12px;}
+  #paymentSuccess h3{font-size:20px;margin-bottom:10px;color:#6ee7b7;}
+  .tx-id{font-size:11px;color:#9ca3af;margin-bottom:14px;}
+  .tx-id b{color:#e5e7eb;font-family:monospace;}
+  .amount-display{font-size:32px;font-weight:900;color:#6ee7b7;margin-bottom:18px;}
+
+  /* ========== WITHDRAW INFO ========== */
+  .withdraw-info{display:flex;justify-content:space-between;padding:10px 12px;background:#0b0e14;border:1px solid #1f2937;border-radius:10px;margin-bottom:10px;font-size:13px;}
+  .withdraw-info b{color:#6ee7b7;}
+
+  /* ========== TOAST ========== */
+  .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:#1f2937;color:#f9fafb;padding:12px 22px;border-radius:99px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.3s;border:1px solid #374151;white-space:nowrap;z-index:200;max-width:90%;overflow:hidden;text-overflow:ellipsis;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
 </head>
 <body>
-  <div class="app">
-    <!-- হেডার -->
-    <div class="header">
-      <div class="logo">Mojo</div>
-      <div class="badge">v1.0 • </div>
+
+<!-- ==================== LOGIN / REGISTER ==================== -->
+<div id="authScreen">
+  <div class="auth-box">
+    <div class="logo-big">MICRON</div>
+    <p class="tagline">Digital Chip Platform</p>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuth('login', this)">লগইন</button>
+      <button class="auth-tab" onclick="switchAuth('register', this)">রেজিস্টার</button>
     </div>
 
-    <!-- ব্যালেন্স কার্ড -->
-    <div class="balance-card">
-      <div class="balance-label">আপনার ব্যালেন্স</div>
-      <div class="balance-amount" id="balanceDisplay">₱0.00</div>
-      <div class="welcome-bonus">🎁 ₱60 ওয়েলকাম বোনাস</div>
+    <!-- Login form -->
+    <div id="loginForm" class="auth-form active">
+      <input type="email" id="loginEmail" placeholder="ইমেইল">
+      <input type="password" id="loginPassword" placeholder="পাসওয়ার্ড">
+      <button class="btn-primary" onclick="doLogin()">লগইন করুন</button>
     </div>
 
-    <!-- টপ-আপ -->
-    <div class="topup-row">
-      <button class="topup-btn" onclick="topUp('GCash')">
-        <span>📱</span> bkash
-      </button>
-      <button class="topup-btn" onclick="topUp('Maya')">
-        <span>💳</span> nagad
-      </button>
+    <!-- Register form -->
+    <div id="registerForm" class="auth-form">
+      <input type="text" id="regName" placeholder="পূর্ণ নাম">
+      <input type="email" id="regEmail" placeholder="ইমেইল">
+      <input type="password" id="regPassword" placeholder="পাসওয়ার্ড (কমপক্ষে ৪ অক্ষর)">
+      <input type="tel" id="regPhone" placeholder="মোবাইল নম্বর (ঐচ্ছিক)">
+      <button class="btn-primary" onclick="doRegister()">রেজিস্টার করুন</button>
+      <p class="hint">🎁 রেজিস্টার করলেই ৳60 বোনাস!</p>
     </div>
+  </div>
+</div>
 
-    <!-- চিপ লিস্ট -->
-    <div class="section-title">
-      চিপ মডিউল <small>১১টি মেটেরিয়াল</small>
-    </div>
-    <div class="chip-list" id="chipList">
-      <!-- জাভাস্ক্রিপ্ট দিয়ে চিপ তৈরি হবে -->
-    </div>
-
-    <!-- আর্নিংস -->
-    <div class="section-title">
-      দৈনিক আয় <small>স্বয়ংক্রিয়</small>
-    </div>
-    <div class="earnings-box">
-      <div class="earnings-left">
-        <div class="label">আজকের আয়</div>
-        <div class="value" id="dailyEarning">₱0.00</div>
-      </div>
-      <button class="cashout-btn" onclick="cashOut()">ক্যাশ আউট</button>
-    </div>
-
-    <!-- বটম নেভ -->
-    <div class="bottom-nav">
-      <div class="nav-item active">
-        <span>🏠</span> হোম
-      </div>
-      <div class="nav-item">
-        <span>📊</span> আর্নিংস
-      </div>
-      <div class="nav-item">
-        <span>⚙️</span> সেটিংস
-      </div>
-    </div>
-
-    <!-- টোস্ট -->
-    <div class="toast" id="toast"></div>
+<!-- ==================== MAIN APP ==================== -->
+<div id="mainApp">
+  <div class="header">
+    <div class="logo">MOJO</div>
+    <div class="user-chip" id="userChip" onclick="goPage('profile')">U</div>
   </div>
 
-  <script>
-    // ---------- আমরা আছি আপনার পাশে ----------
-    const CHIPS = [
-      { id: 'MU1', name: 'Frost Glass', price: 600, daily: 110 },
-      { id: 'MU2', name: 'Prism', price: 1300, daily: 215 },
-      { id: 'MU3', name: 'Onyx', price: 2000, daily: 300 },
-      { id: 'MU4', name: 'Quartz', price: 2500, daily: 340 },
-      { id: 'MU5', name: 'Sapphire', price: 3500, daily: 450 },
-      { id: 'MU6', name: 'Emerald', price: 5000, daily: 620 },
-      { id: 'MU7', name: 'Ruby', price: 7000, daily: 860 },
-      { id: 'MU8', name: 'Diamond', price: 10000, daily: 1260 },
-      { id: 'MU9', name: 'Titanium', price: 20000, daily: 2230 },
-      { id: 'MU10', name: 'Nebula', price: 30000, daily: 3030 },
-      { id: 'MU11', name: 'Cosmic', price: 40000, daily: 4060 },
-    ];
+  <!-- HOME PAGE -->
+  <div class="page active" id="page-home">
+    <div class="balance-card">
+      <div class="balance-label">মোট ব্যালেন্স</div>
+      <div class="balance-amount" id="homeBalance">৳0.00</div>
+      <div class="welcome-bonus">🎁 ওয়েলকাম বোনাস ৳60</div>
+    </div>
 
-    // ---------- active ----------
-    let state = {
-      balance: 0,
-      dailyEarning: 0,
-      activatedChips: new Set(),
-    };
+    <div class="topup-row">
+      <button class="topup-btn bkash" onclick="openPayment('bKash')"><span>💳</span> bKash</button>
+      <button class="topup-btn nagad" onclick="openPayment('Nagad')"><span>📱</span> Nagad</button>
+    </div>
 
-    // ---------- DOM ----------
-    const balanceDisplay = document.getElementById('balanceDisplay');
-    const dailyEarningDisplay = document.getElementById('dailyEarning');
-    const chipListEl = document.getElementById('chipList');
-    const toastEl = document.getElementById('toast');
+    <div class="section-title">চিপ মডিউল <small>১১টি মেটেরিয়াল</small></div>
+    <div class="chip-list" id="chipList"></div>
+  </div>
 
-    // ---------- হেল্পার ----------
-    function formatCurrency(amount) {
-      return '₱' + amount.toFixed(2);
-    }
+  <!-- EARNINGS PAGE -->
+  <div class="page" id="page-earnings">
+    <div class="balance-card small">
+      <div class="balance-label">আজকের আয়</div>
+      <div class="balance-amount" id="dailyEarning">৳0.00</div>
+      <div class="sub-info">মোট উপার্জন: <b id="totalEarned">৳0.00</b></div>
+      <button class="btn-primary" style="margin-top:14px;" onclick="openWithdraw()">💸 ক্যাশ আউট / উইথড্র</button>
+    </div>
 
-    function showToast(message) {
-      toastEl.textContent = message;
-      toastEl.classList.add('show');
-      clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(() => {
-        toastEl.classList.remove('show');
-      }, 2200);
-    }
+    <div class="history-tabs">
+      <div class="htab active" data-tab="module" onclick="switchTab(this)">📦 মডিউল</div>
+      <div class="htab" data-tab="deposit" onclick="switchTab(this)">💰 জমা</div>
+      <div class="htab" data-tab="withdraw" onclick="switchTab(this)">💸 উইথড্র</div>
+    </div>
 
-    // ---------- রেন্ডার ----------
-    function renderBalance() {
-      balanceDisplay.textContent = formatCurrency(state.balance);
-    }
+    <div class="history-list" id="historyList"></div>
+  </div>
 
-    function renderDailyEarning() {
-      dailyEarningDisplay.textContent = formatCurrency(state.dailyEarning);
-    }
+  <!-- PROFILE PAGE -->
+  <div class="page" id="page-profile">
+    <div class="card">
+      <div class="avatar-row">
+        <div class="avatar" id="avatarInitial">U</div>
+        <div class="profile-info">
+          <div class="name" id="profileName">User</div>
+          <div class="uid">UID: <span id="uidDisplay">MU000000</span></div>
+        </div>
+      </div>
+    </div>
 
-    function renderChips() {
-      chipListEl.innerHTML = '';
-      CHIPS.forEach(chip => {
-        const isActive = state.activatedChips.has(chip.id);
-        const div = document.createElement('div');
-        div.className = 'chip-item' + (isActive ? ' active' : '');
-        div.innerHTML = `
-          <div class="chip-info">
-            <div class="chip-name">${chip.id} – ${chip.name}</div>
-            <div class="chip-detail">মূল্য: ₱${chip.price} • দৈনিক: <b>₱${chip.daily}</b></div>
-          </div>
-          <button class="chip-action" ${isActive ? 'disabled' : ''} onclick="activateChip('${chip.id}')">
-            ${isActive ? 'সক্রিয়' : 'অ্যাক্টিভেট'}
-          </button>
-        `;
-        chipListEl.appendChild(div);
-      });
-    }
+    <div class="card">
+      <h3>🎁 রেফারেল</h3>
+      <div class="ref-box">
+        <div class="lbl">আপনার রেফারেল কোড</div>
+        <div class="ref-code" id="refCode">MICRON60</div>
+        <button class="copy-btn" onclick="copyReferral()">কোড কপি করুন</button>
+      </div>
+    </div>
 
-    // ---------- অ্যাকশন ----------
-    function topUp(method) {
-  
-      const amount = 500; // ধরা হচ্ছে প্রতি টপ-আপে ৫০০
-      state.balance += amount;
-      renderBalance();
-      showToast(`${method} থেকে ₱${amount} যোগ হয়েছে `);
-    }
+    <div class="card">
+      <h3>ℹ️ About</h3>
+      <p class="about-text">Micron একটি ডিজিটাল চিপ অ্যাক্টিভেশন প্ল্যাটফর্ম। চিপ কিনুন, দৈনিক আয় করুন এবং bKash/Nagad-এ ক্যাশ আউট করুন।</p>
+    </div>
 
-    function activateChip(chipId) {
-      const chip = CHIPS.find(c => c.id === chipId);
-      if (!chip) return;
+    <div class="card">
+      <h3>📞 যোগাযোগ</h3>
+      <a href="https://t.me/your_telegram" target="_blank" class="link-item">
+        <div class="icon">✈️</div>
+        <div class="text">
+          <div class="title">Telegram সাপোর্ট</div>
+          <div class="desc">@your_telegram</div>
+        </div>
+        <div class="arrow">›</div>
+      </a>
+    </div>
 
-      if (state.activatedChips.has(chipId)) {
-        showToast('এই চিপটি ইতিমধ্যে সক্রিয়');
-        return;
-      }
+    <button class="btn-danger" onclick="doLogout()">লগআউট</button>
+  </div>
 
-      if (state.balance < chip.price) {
-        showToast('পর্যাপ্ত ব্যালেন্স নেই! আগে টপ-আপ করুন।');
-        return;
-      }
+  <!-- SETTINGS PAGE -->
+  <div class="page" id="page-settings">
+    <div class="card">
+      <h3>👤 প্রোফাইল নাম</h3>
+      <input type="text" id="nameInput" placeholder="নাম লিখুন" maxlength="20" class="input-field">
+      <button class="btn-primary" onclick="saveName()">নাম সেভ করুন</button>
+    </div>
 
-      // ব্যালেন্স কাটা
-      state.balance -= chip.price;
-      // দৈনিক আয় যোগ
-      state.dailyEarning += chip.daily;
-      state.activatedChips.add(chipId);
+    <div class="card">
+      <h3>💳 পেমেন্ট মেথড</h3>
+      <div class="pay-grid">
+        <div class="pay-option" data-method="bKash" onclick="selectMethod(this)">
+          <span class="icon">💳</span> bKash
+        </div>
+        <div class="pay-option" data-method="Nagad" onclick="selectMethod(this)">
+          <span class="icon">📱</span> Nagad
+        </div>
+      </div>
+      <p class="modal-note">এই মেথডে ক্যাশ আউট যাবে</p>
+    </div>
 
-      renderBalance();
-      renderDailyEarning();
-      renderChips();
-      showToast(`${chip.id} সক্রিয়! দৈনিক ₱${chip.daily} আয় শুরু।`);
-    }
+    <div class="card">
+      <h3>⚙️ অ্যাকাউন্ট</h3>
+      <div class="form-group">
+        <label>আপনার UID</label>
+        <input type="text" id="uidInput" readonly class="input-field">
+      </div>
+      <button class="btn-danger" onclick="resetAllData()">🔄 সব ডেটা রিসেট</button>
+    </div>
+  </div>
 
-    function cashOut() {
-      if (state.dailyEarning <= 0) {
-        showToast('ক্যাশ আউট করার মতো আয় নেই।');
-        return;
-      }
-      const amount = state.dailyEarning;
-      state.balance += amount;
-      state.dailyEarning = 0;
-      renderBalance();
-      renderDailyEarning();
-      showToast(`₱${amount.toFixed(2)} ক্যাশ আউট সফল `);
-    }
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <div class="nav-item active" data-page="home" onclick="goPage('home')"><span>🏠</span>হোম</div>
+    <div class="nav-item" data-page="earnings" onclick="goPage('earnings')"><span>📊</span>আর্নিংস</div>
+    <div class="nav-item" data-page="profile" onclick="goPage('profile')"><span>👤</span>প্রোফাইল</div>
+    <div class="nav-item" data-page="settings" onclick="goPage('settings')"><span>⚙️</span>সেটিংস</div>
+  </div>
+</div>
 
-    // ---------- ইনিশিয়ালাইজ ----------
-    function init() {
-      // রেজিস্ট্রেশন বোনাস
-      state.balance = 200;
-      renderBalance();
-      renderDailyEarning();
-      renderChips();
-    }
+<!-- ==================== PAYMENT MODAL ==================== -->
+<div id="paymentModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="paymentTitle">bKash Top Up</h3>
+      <button class="modal-close" onclick="closeModal('paymentModal')">✕</button>
+    </div>
 
-    init();
-  </script>
-</body>
-  </html>
+    <!-- Step 1: Amount -->
+    <div id="paymentForm">
+      <p class="modal-desc">কত টাকা যোগ করতে চান?</p>
+      <input type="number" id="paymentAmount" placeholder="৳ পরিমাণ" min="10" class="input-field">
+      <div class="quick-amounts">
+        <button onclick="setAmount(100)">৳100</button>
+        <button onclick="setAmount(500)">৳500</button>
+        <button onclick="setAmount(1000)">৳1000</button>
+        <button onclick="setAmount(5000)">৳5000</button>
+      </div>
+      <button class="btn-primary" onclick="processPayment()">পেমেন্ট নিশ্চিত করুন</button>
+      <p class="modal-note"> মোজো</p>
+    </div>
+
+    <!-- Step 2: Processing -->
+    <div id="paymentProcessing" class="hidden">
+      <div class="spinner"></div>
+      <p class="processing-text">পেমেন্ট প্রসেসিং...</p>
+      <p class="processing-sub">অনুগ্রহ করে অপেক্ষা করুন</p>
+    </div>
+
+    <!-- Step 3: Success -->
+    <div id="paymentSuccess" class="hidden">
+      <div class="success-icon">✅</div>
+      <h3>পেমেন্ট সফল!</h3>
+      <p class="tx-id">Transaction ID: <b id="txIdDisplay"></b></p>
+      <p class="amount-display" id="successAmount">৳0.00</p>
+      <button class="btn-primary" onclick="closePaymentAndRefresh()">ঠিক আছে</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== WITHDRAW MODAL ==================== -->
+<div id="withdrawModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>উইথড্র রিকোয়েস্ট</h3>
+      <button class="modal-close" onclick="closeModal('withdrawModal')">✕</button>
+    </div>
+    <div class="withdraw-info"><span>ব্যালেন্স:</span><b id="withdrawBalance">৳0</b></div>
+    <div class="withdraw-info"><span>মেথড:</span><b id="withdrawMethod">bKash</b></div>
+    <input type="number" id
