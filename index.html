@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Micron – চিপ অ্যাক্টিভেট করুন, আয় করুন</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: #0b0e14;
+      color: #eef2f7;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 420px;
+      padding: 16px 14px 90px;
+      background: #0b0e14;
+      position: relative;
+    }
+
+    /* হেডার */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #6ee7b7, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .badge {
+      background: #1f2937;
+      padding: 6px 12px;
+      border-radius: 99px;
+      font-size: 12px;
+      color: #9ca3af;
+      border: 1px solid #374151;
+    }
+
+    /* ব্যালেন্স কার্ড */
+    .balance-card {
+      background: linear-gradient(145deg, #111827, #1f2937);
+      border-radius: 24px;
+      padding: 22px 20px;
+      border: 1px solid #2d3748;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 25px -10px rgba(0,0,0,0.6);
+    }
+    .balance-label {
+      font-size: 13px;
+      color: #9ca3af;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+    .balance-amount {
+      font-size: 38px;
+      font-weight: 800;
+      color: #f9fafb;
+      margin-bottom: 4px;
+    }
+    .balance-amount span {
+      font-size: 20px;
+      color: #6ee7b7;
+    }
+    .welcome-bonus {
+      display: inline-block;
+      background: #064e3b;
+      color: #6ee7b7;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    /* টপ-আপ বাটন */
+    .topup-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .topup-btn {
+      flex: 1;
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 14px;
+      padding: 12px 0;
+      color: #e5e7eb;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .topup-btn:active {
+      transform: scale(0.97);
+      background: #374151;
+    }
+    .topup-btn span {
+      font-size: 18px;
+    }
+
+    /* সেকশন টাইটেল */
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .section-title small {
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 400;
+    }
+
+    /* চিপ লিস্ট */
+    .chip-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .chip-item {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 18px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.2s;
+    }
+    .chip-item.active {
+      border-color: #3b82f6;
+      background: #0f172a;
+    }
+    .chip-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .chip-name {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+    .chip-detail {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    .chip-detail b {
+      color: #6ee7b7;
+    }
+    .chip-action {
+      background: #1e3a8a;
+      border: none;
+      color: #bfdbfe;
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .chip-action:active {
+      transform: scale(0.95);
+    }
+    .chip-action:disabled {
+      background: #1f2937;
+      color: #4b5563;
+      cursor: allowed;
+    }
+
+    /* আর্নিংস ওভারভিউ */
+    .earnings-box {
+      background: #111827;
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid #1f2937;
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .earnings-left .label {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .earnings-left .value {
+      font-size: 24px;
+      font-weight: 800;
+      color: #6ee7b7;
+    }
+    .cashout-btn {
+      background: #6ee7b7;
+      border: none;
+      color: #0b0e14;
+      font-weight: 800;
+      padding: 12px 22px;
+      border-radius: 99px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .cashout-btn:active {
+      transform: scale(0.96);
+      opacity: 0.9;
+    }
+
+    /* বটম নেভিগেশন (ঐচ্ছিক) */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 420px;
+      background: #111827ee;
+      backdrop-filter: blur(8px);
+      border-top: 1px solid #1f2937;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0 18px;
+      font-size: 11px;
+      color: #6b7280;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+    }
+    .nav-item.active {
+      color: #6ee7b7;
+    }
+    .nav-item span {
+      font-size: 18px;
+    }
+
+    /* টোস্ট নোটিফিকেশন */
+    .toast {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1f2937;
+      color: #f9fafb;
+      padding: 12px 24px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s;
+      border: 1px solid #374151;
+      white-space: nowrap;
+      z-index: 99;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- হেডার -->
+    <div class="header">
+      <div class="logo">Mojo</div>
+      <div class="badge">v1.0 • </div>
+    </div>
+
+    <!-- ব্যালেন্স কার্ড -->
+    <div class="balance-card">
+      <div class="balance-label">আপনার ব্যালেন্স</div>
+      <div class="balance-amount" id="balanceDisplay">₱0.00</div>
+      <div class="welcome-bonus">🎁 ₱60 ওয়েলকাম বোনাস</div>
+    </div>
+
+    <!-- টপ-আপ -->
+    <div class="topup-row">
+      <button class="topup-btn" onclick="topUp('GCash')">
+        <span>📱</span> bkash
+      </button>
+      <button class="topup-btn" onclick="topUp('Maya')">
+        <span>💳</span> nagad
+      </button>
+    </div>
+
+    <!-- চিপ লিস্ট -->
+    <div class="section-title">
+      চিপ মডিউল <small>১১টি মেটেরিয়াল</small>
+    </div>
+    <div class="chip-list" id="chipList">
+      <!-- জাভাস্ক্রিপ্ট দিয়ে চিপ তৈরি হবে -->
+    </div>
+
+    <!-- আর্নিংস -->
+    <div class="section-title">
+      দৈনিক আয় <small>স্বয়ংক্রিয়</small>
+    </div>
+    <div class="earnings-box">
+      <div class="earnings-left">
+        <div class="label">আজকের আয়</div>
+        <div class="value" id="dailyEarning">₱0.00</div>
+      </div>
+      <button class="cashout-btn" onclick="cashOut()">ক্যাশ আউট</button>
+    </div>
+
+    <!-- বটম নেভ -->
+    <div class="bottom-nav">
+      <div class="nav-item active">
+        <span>🏠</span> হোম
+      </div>
+      <div class="nav-item">
+        <span>📊</span> আর্নিংস
+      </div>
+      <div class="nav-item">
+        <span>⚙️</span> সেটিংস
+      </div>
+    </div>
+
+    <!-- টোস্ট -->
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    // ---------- আমরা আছি আপনার পাশে ----------
+    const CHIPS = [
+      { id: 'MU1', name: 'Frost Glass', price: 600, daily: 110 },
+      { id: 'MU2', name: 'Prism', price: 1300, daily: 215 },
+      { id: 'MU3', name: 'Onyx', price: 2000, daily: 300 },
+      { id: 'MU4', name: 'Quartz', price: 2500, daily: 340 },
+      { id: 'MU5', name: 'Sapphire', price: 3500, daily: 450 },
+      { id: 'MU6', name: 'Emerald', price: 5000, daily: 620 },
+      { id: 'MU7', name: 'Ruby', price: 7000, daily: 860 },
+      { id: 'MU8', name: 'Diamond', price: 10000, daily: 1260 },
+      { id: 'MU9', name: 'Titanium', price: 20000, daily: 2230 },
+      { id: 'MU10', name: 'Nebula', price: 30000, daily: 3030 },
+      { id: 'MU11', name: 'Cosmic', price: 40000, daily: 4060 },
+    ];
+
+    // ---------- active ----------
+    let state = {
+      balance: 0,
+      dailyEarning: 0,
+      activatedChips: new Set(),
+    };
+
+    // ---------- DOM ----------
+    const balanceDisplay = document.getElementById('balanceDisplay');
+    const dailyEarningDisplay = document.getElementById('dailyEarning');
+    const chipListEl = document.getElementById('chipList');
+    const toastEl = document.getElementById('toast');
+
+    // ---------- হেল্পার ----------
+    function formatCurrency(amount) {
+      return '₱' + amount.toFixed(2);
+    }
+
+    function showToast(message) {
+      toastEl.textContent = message;
+      toastEl.classList.add('show');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        toastEl.classList.remove('show');
+      }, 2200);
+    }
+
+    // ---------- রেন্ডার ----------
+    function renderBalance() {
+      balanceDisplay.textContent = formatCurrency(state.balance);
+    }
+
+    function renderDailyEarning() {
+      dailyEarningDisplay.textContent = formatCurrency(state.dailyEarning);
+    }
+
+    function renderChips() {
+      chipListEl.innerHTML = '';
+      CHIPS.forEach(chip => {
+        const isActive = state.activatedChips.has(chip.id);
+        const div = document.createElement('div');
+        div.className = 'chip-item' + (isActive ? ' active' : '');
+        div.innerHTML = `
+          <div class="chip-info">
+            <div class="chip-name">${chip.id} – ${chip.name}</div>
+            <div class="chip-detail">মূল্য: ₱${chip.price} • দৈনিক: <b>₱${chip.daily}</b></div>
+          </div>
+          <button class="chip-action" ${isActive ? 'disabled' : ''} onclick="activateChip('${chip.id}')">
+            ${isActive ? 'সক্রিয়' : 'অ্যাক্টিভেট'}
+          </button>
+        `;
+        chipListEl.appendChild(div);
+      });
+    }
+
+    // ---------- অ্যাকশন ----------
+    function topUp(method) {
+  
+      const amount = 500; // ধরা হচ্ছে প্রতি টপ-আপে ৫০০
+      state.balance += amount;
+      renderBalance();
+      showToast(`${method} থেকে ₱${amount} যোগ হয়েছে `);
+    }
+
+    function activateChip(chipId) {
+      const chip = CHIPS.find(c => c.id === chipId);
+      if (!chip) return;
+
+      if (state.activatedChips.has(chipId)) {
+        showToast('এই চিপটি ইতিমধ্যে সক্রিয়');
+        return;
+      }
+
+      if (state.balance < chip.price) {
+        showToast('পর্যাপ্ত ব্যালেন্স নেই! আগে টপ-আপ করুন।');
+        return;
+      }
+
+      // ব্যালেন্স কাটা
+      state.balance -= chip.price;
+      // দৈনিক আয় যোগ
+      state.dailyEarning += chip.daily;
+      state.activatedChips.add(chipId);
+
+      renderBalance();
+      renderDailyEarning();
+      renderChips();
+      showToast(`${chip.id} সক্রিয়! দৈনিক ₱${chip.daily} আয় শুরু।`);
+    }
+
+    function cashOut() {
+      if (state.dailyEarning <= 0) {
+        showToast('ক্যাশ আউট করার মতো আয় নেই।');
+        return;
+      }
+      const amount = state.dailyEarning;
+      state.balance += amount;
+      state.dailyEarning = 0;
+      renderBalance();
+      renderDailyEarning();
+      showToast(`₱${amount.toFixed(2)} ক্যাশ আউট সফল `);
+    }
+
+    // ---------- ইনিশিয়ালাইজ ----------
+    function init() {
+      // রেজিস্ট্রেশন বোনাস
+      state.balance = 200;
+      renderBalance();
+      renderDailyEarning();
+      renderChips();
+    }
+
+    init();
+  </script>
+</body>
+  </html>
